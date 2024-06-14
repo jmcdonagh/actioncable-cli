@@ -132,6 +132,6 @@ to show you how easy it is to get going with such advanced architecture. To
 see these changes run:
 
 ```shell
-  git diff 93556557bcee94711920d3692c5abe0ad57a897b..
+  git diff 93556557bcee94711920d3692c5abe0ad57a897b..9be03fb7d0fe4c9a4a9c75750fb92fc2b7c830aa
 ```
 
