@@ -1,0 +1,12 @@
+default: &default
+  adapter: postgresql
+  database: <%= ENV.fetch('ACTIONCABLE_CLI_DB_NAME', "actioncable_cli_#{Rails.env}") %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+test:
+  <<: *default
+  database: storage/test.sqlite3
+
+<%= Rails.env %>:
+  <<: *default

@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+function get_children_pids() {
+  pgrep -P $$ 2>/dev/null | paste -sd ' ' -
+}
+
+function popd_all() {
+  while [[ $(dirs -v | wc -l) -gt 1 ]]; do
+    popd >/dev/null || return
+  done
+}
+
+function ackbar() {
+  oldretval="${1}"
+  signal="15"
+  [ "${oldretval}" == "130" ] && signal=9
+
+  pids=$(get_children_pids)
+
+  for pid in ${pids}; do
+    [ -n "${pid}" ] \
+    && \
+    kill -0 "${pid}" >/dev/null 2>&1 \
+    && \
+    kill "-${signal}" "${pid}" >/dev/null 2>&1 \
+    && \
+    wait "${pid}" >/dev/null 2>&1
+  done
+
+  exit ${oldretval}
+}
+
+trap 'stty echo; popd_all; ackbar $?' INT ERR EXIT
+
+current_dir=$(dirname "${0}")
+rails_root="${current_dir}/../"
+
+if ! pushd "${rails_root}" >/dev/null; then
+  printf "Couldn't change directory to rails root (%s), exiting!\n" \
+    "${rails_root}" \
+  >&2
+
+  exit 1
+fi
+
+bundle exec rails server &
+bundle exec sidekiq &
+
+sleep 1
+stty -echo
+printf "Started Rails and Sidekiq in the background (PIDs %s)\n" \
+  "$(get_children_pids)"
+read -n 1 -r -p "Press ANY KEY to exit and shut down backend services..."
+printf "\n"
+

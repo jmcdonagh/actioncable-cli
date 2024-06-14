@@ -26,6 +26,13 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+gem 'sidekiq', '~> 6.1'
+gem 'redlock', '~> 2.0.6'
+gem 'async-websocket', '~> 0.26.1'
+gem 'async-io', '~> 1.43.2'
+gem 'ruby-progressbar', '~> 1.11'
+gem 'pry'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
