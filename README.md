@@ -9,6 +9,31 @@ This is for demonstration purposes only!! If you want to actually extend this
 thing and put it to use, fork it and start a real project! Keep this repo as
 bare-bones as possible.
 
+## Options used to generate the initial Rails app
+
+Here is the command-line used to generate the initial Rails app:
+
+```shell
+rails new actioncable-cli \
+    --api \
+    --skip-action-mailer \
+    --skip-action-mailbox \
+    --skip-action-text \
+    --skip-active-job \
+    --skip-active-record \
+    --skip-active-storage \
+    --skip-javascript \
+    --skip-jbuilder \
+    --skip-spring \
+    --skip-test \
+    --skip-system-test \
+    --skip-webpack-install \
+    --skip-turbolinks
+```
+
+You're probably going to want AR and other things if you were doing a real
+app.
+
 ## Why?
 
 Rails is a powerful framework with a huge community, but sometimes you don't
