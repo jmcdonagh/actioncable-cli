@@ -60,7 +60,12 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-ActionCable+CLI">ActionCable CLI</h1>
 
-<p>This is a tiny PoC that shows a Rails API-Only app, communicated with via CLI -&gt; ActionCable (WebSockets). It also has RedLock for distributed locking. This was based on [<a href="https://www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html">www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html</a>] with some changes like adding linters, rake tasks, and a few other boilerplate things.</p>
+<p>This is a tiny PoC that shows a Rails API-Only app, communicated with via CLI -&gt; ActionCable (WebSockets). It also has RedLock for distributed locking. This was based on [<a href="https://www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html">www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html</a>] with some changes like adding linters, rake tasks, and a few other boilerplate things. There’s a pre-commit which can be set up by running this while in the root of a fresh clone:</p>
+
+<pre class="code ruby"><code class="ruby">ln -sf ../../bin/pre-commit .git/hooks/pre-commit
+</code></pre>
+
+<p>The default Rake task does a whole bunch of static analysis in addition to testing. Check out the Rakefile for details.</p>
 
 <h2 id="label-Options+used+to+generate+the+initial+Rails+app">Options used to generate the initial Rails app</h2>
 
@@ -170,7 +175,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Thu Apr 17 22:55:16 2025 by
+  Generated on Thu Apr 17 23:17:40 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.2.0).
 </div>

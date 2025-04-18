@@ -22,16 +22,22 @@ end
 RuboCop::RakeTask.new
 
 YARD::Rake::YardocTask.new do |t|
-  t.files = ['lib/**/*.rb']
+  t.files = [
+    'app/**/*.rb',
+    'lib/**/*.rake',
+    'lib/**/*.rb',
+    'lib/**/*.thor',
+  ]
 end
 
 task default: %i[
   spec
   rubocop
   reek
-  skunk
   fasterer
+  flay
   brakeman
+  skunk
   yard
   bundle:audit:update
   bundle:audit:check
