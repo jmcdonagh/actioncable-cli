@@ -1,7 +1,7 @@
-# ActionCable CLI
+# ActionCable CLI Skeleton
 
-This is a tiny PoC that shows a Rails API-Only app, communicated with via
-CLI -> ActionCable (WebSockets). It also has RedLock for distributed locking.
+This is a skeleton of a Rails API-Only app, communicated with via CLI ->
+ActionCable (WebSockets). It also has RedLock for distributed locking.
 This was based on [https://www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html]
 with some changes like adding linters, rake tasks, and a few other boilerplate
 things. There's a pre-commit which can be set up by running this while in the
@@ -102,7 +102,7 @@ your client (the thor task).
 
 ### 1. Thor task connects to Rails' WebSocket Server (ActionCable)
 
-The thor worker:start task (located in lib/tasks/worker.thor), connects to
+The thor worker:start task (located in lib/tasks/thor/worker.thor), connects to
 Rails' websocket server running on localhost:3000, and it does so
 asynchronously. It connects to the route /cable, which is the the default
 ActionCable route, and it passes a "client_id" parameter to the /cable route.
