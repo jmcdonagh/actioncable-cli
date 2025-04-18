@@ -2,7 +2,7 @@
 
 This is a skeleton of a Rails API-Only app, communicated with via CLI ->
 ActionCable (WebSockets). It also has RedLock for distributed locking.
-This was based on [https://www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html]
+This was based on [this tutorial](https://www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html)
 with some changes like adding linters, rake tasks, and a few other boilerplate
 things. There's a pre-commit which can be set up by running this while in the
 root of a fresh clone:
