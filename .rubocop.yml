@@ -1,0 +1,87 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rake
+  - rubocop-rspec
+  - rubocop-rspec_rails
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - '**/zzz/**/*'     # Ignore dormant/dead code
+    - 'vendor/bundle/**/*'  # Ignore gems in vendor bundle
+
+Layout/LineLength:
+  Max: 80
+
+Metrics/AbcSize:
+  Max: 19.0
+
+Metrics/CyclomaticComplexity:
+  Max: 8
+
+Metrics/MethodLength:
+  Max: 24
+
+Metrics/ParameterLists:
+  Max: 7
+
+Naming/MethodParameterName:
+  MinNameLength: 2
+  AllowedNames: ['x', 'y']
+
+RSpec/ExampleLength:
+  Max: 10
+  CountAsOne: [ 'array', 'hash', 'heredoc', 'method_call']
+
+RSpec/NestedGroups:
+  Max: 7
+
+RSpec/MessageExpectation:
+  EnforcedStyle: expect
+
+RSpec/StubbedMock:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+RSpec/VerifiedDoubles:
+  IgnoreSymbolicNames: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/KeywordParametersOrder:
+  Enabled: false
+
+Style/MultilineTernaryOperator:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+Style/EndlessMethod:
+  EnforcedStyle: require_single_line
+
+Style/ArgumentsForwarding:
+  Enabled: true
+

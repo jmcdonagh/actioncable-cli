@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+# Link to this file from .git/hooks/pre-commit to do syntax checking and
+# static analysis on changed files.
+
+################################
+##      HELPER FUNCTIONS      ##
+################################
+function against() {
+  local against
+
+  if git-rev-parse --verify HEAD >/dev/null 2>&1 ; then
+    against='HEAD'
+  else
+    # Initial commit: diff against an empty tree object
+    against='904e2031432921ebd64f0d2d8c34989d7c23f167'
+  fi
+
+  printf '%s' "${against}"
+}
+
+function analyze_ruby_files() {
+  [ -z "${RB_FILES[*]:-}" ] && return 0
+
+  for cmd in rubocop reek; do
+    echo "RUNNING ${cmd}"
+    bundle exec "${cmd}" "${RB_FILES[@]}"
+  done
+
+  # Don't run skunk on rspec files
+  non_specs=("${RB_FILES[@]/*spec.rb/}")
+  [ -z "${non_specs[*]:-}" ] && return 0
+
+  echo "RUNNING skunk"
+  bundle exec skunk "${non_specs[@]}"
+}
+
+function analyze_bash_files() {
+  [ -z "${BASH_FILES[*]:-}" ] && return 0
+
+  shellcheck -x "${BASH_FILES[@]}"
+}
+
+function analyze_sh_files() {
+  [ -z "${SH_FILES[*]:-}" ] && return 0
+
+  shellcheck -x "${SH_FILES[@]}"
+}
+
+function changed_files() {
+  git diff-index --cached --name-only "$(against)" --
+}
+
+function check_bash_files() {
+  for file in "${BASH_FILES[@]}"; do syntax_checker "${file}" "bash"; done
+}
+
+function check_ruby_files() {
+  for file in "${RB_FILES[@]}"; do syntax_checker "${file}" "ruby"; done
+}
+
+function check_sh_files() {
+  for file in "${SH_FILES[@]}"; do syntax_checker "${file}" "sh"; done
+}
+
+function file_extension() { printf '%s' "${1:-''}" | awk -F. '{ print $NF }'; }
+
+function file_type() {
+  local file_type
+
+  case "$(file_extension "${1:-''}")" in
+    rb) file_type="ruby" ;;
+    sh) file_type="bash" ;;
+    *) file_type="" ;;
+  esac
+
+  if [ -z "${file_type}" ]; then
+    file_type=$(file_type_from_shebang "${1:-''}")
+  fi
+
+  printf '%s' "${file_type}"
+}
+
+function file_type_from_shebang() {
+  local file="${1:-''}"
+  [ -z "${file}" ] && printf '' && return 0
+
+  head -n 1 "${file}" \
+  | \
+  grep -E '^#!\/' \
+  | \
+  awk -F'( |/)' '{ print $NF }'
+}
+
+function syntax_checker() {
+  local file="${1:-''}"
+  [ -z "${file}" ] && return 0
+
+  local file_type="${2:-''}"
+  [ -z "${file_type}" ] && return 0
+
+  case "${file_type}" in
+    bash) bash -n "${file}" ;;
+    ruby) ruby -cw "${file}" ;;
+    sh) sh -n "${file}" ;;
+  esac
+}
+
+################################
+##      WORKER FUNCTIONS      ##
+################################
+function set_shell_opts() {
+  set -eEu
+  set -o pipefail
+}
+
+function setup_global_arrays() {
+  declare -ga \
+    BASH_FILES \
+    RB_FILES \
+    SH_FILES
+}
+
+function sort_files() {
+  for file in $(changed_files); do
+    [ ! -e "${file}" ] && continue
+    [ -d "${file}" ] && continue
+
+    local arr
+    case "$(file_type "${file}")" in
+      ruby) arr='RB_FILES' ;;
+      bash) arr='BASH_FILES' ;;
+      sh) arr='SH_FILES' ;;
+      *) arr='' ;;
+    esac
+
+    [ -n "${arr}" ] && eval "${arr}+=( '${file}' )" && continue
+    [ -z "${arr}" ] && continue
+  done
+}
+
+function syntax() {
+  check_ruby_files
+  check_bash_files
+  check_sh_files
+}
+
+function static_analysis() {
+  analyze_ruby_files
+  analyze_bash_files
+  analyze_sh_files
+}
+
+function test_suite() {
+  bundle exec rake spec
+}
+
+function main() {
+  set_shell_opts
+  setup_global_arrays
+  sort_files
+  syntax
+  static_analysis
+  test_suite
+}
+
+main

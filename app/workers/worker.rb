@@ -1,15 +1,32 @@
+# frozen_string_literal: true
+
+# Basic Worker class does nothing really just output things for demonstration.
 class Worker
   include Sidekiq::Worker
 
   def perform(client_id)
     steps = 5
-    WorkerChannel.broadcast_to("client_#{client_id}", type: :worker_started, total: steps)
+    WorkerChannel.broadcast_to(
+      "client_#{client_id}",
+      type: :worker_started,
+      total: steps,
+    )
+
     (1..steps).each do |progress|
       sleep(rand(1..3))
+
       Sidekiq.logger.info("Step #{progress} for client #{client_id}")
-      WorkerChannel.broadcast_to("client_#{client_id}", type: :worker_progress, progress: progress)
+
+      WorkerChannel.broadcast_to(
+        "client_#{client_id}",
+        type: :worker_progress,
+        progress: progress,
+      )
     end
-    WorkerChannel.broadcast_to("client_#{client_id}", type: :worker_done)
+
+    WorkerChannel.broadcast_to(
+      "client_#{client_id}",
+      type: :worker_done,
+    )
   end
 end
-

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=2154
 
 function get_children_pids() {
   pgrep -P $$ 2>/dev/null | paste -sd ' ' -
@@ -27,10 +28,10 @@ function ackbar() {
     wait "${pid}" >/dev/null 2>&1
   done
 
-  exit ${oldretval}
+  exit "${oldretval}"
 }
 
-trap 'stty echo; popd_all; ackbar $?' INT ERR EXIT
+trap 'retval=$?; stty echo; popd_all; ackbar ${retval}' INT ERR EXIT
 
 current_dir=$(dirname "${0}")
 rails_root="${current_dir}/../"
@@ -48,8 +49,14 @@ bundle exec sidekiq &
 
 sleep 1
 stty -echo
-printf "Started Rails and Sidekiq in the background (PIDs %s)\n" \
-  "$(get_children_pids)"
-read -n 1 -r -p "Press ANY KEY to exit and shut down backend services..."
-printf "\n"
 
+printf \
+  "Started Rails and Sidekiq in the background (PIDs %s)\n" \
+  "$(get_children_pids)"
+
+read \
+  -n 1 \
+  -p "Press ANY KEY to exit and shut down backend services..." \
+  -r
+
+printf "\n"

@@ -1,51 +1,43 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby "3.2.0"
+source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1.3", ">= 7.1.3.4"
+ruby '3.2.0'
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
-
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
-
-# Use Redis adapter to run Action Cable in production
-# gem "redis", ">= 4.0.1"
-
-# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
-# gem "kredis"
-
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-
-gem 'sidekiq', '~> 6.1'
-gem 'redlock', '~> 2.0.6'
-gem 'async-websocket', '~> 0.26.1'
-gem 'async-io', '~> 1.43.2'
-gem 'ruby-progressbar', '~> 1.11'
+gem 'async-io'
+gem 'async-websocket'
+gem 'bootsnap', require: false
 gem 'pry'
+gem 'puma'
+gem 'rails'
+gem 'redis'
+gem 'redlock'
+gem 'ruby-progressbar'
+gem 'sidekiq'
+gem 'sprockets-rails'
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  gem 'debug', platforms: %i[mri windows]
 end
 
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
-
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
-
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
+  gem 'brakeman'
+  gem 'bundle-audit'
+  gem 'fasterer'
+  gem 'flay'
+  gem 'rake'
+  gem 'reek'
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails'
+  gem 'simplecov'
+  gem 'skunk'
+  gem 'web-console'
+  gem 'yard'
 end
-

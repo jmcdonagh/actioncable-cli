@@ -1,0 +1,32 @@
+---
+detectors:
+  UncommunicativeVariableName:
+    accept:
+      - e
+      - i
+      - x
+      - y
+      - _
+
+  IrresponsibleModule:
+    enabled: true
+    exclude:
+      - ApplicationCable
+      - ApplicationChannel
+      - ApplicationController
+      - ApplicationHelper
+      - ApplicationJob
+      - ApplicationMailer
+      - ApplicationPolicy
+      - ApplicationRecord
+      - ApplicationSerializer
+      - ApplicationService
+
+  TooManyStatements:
+    enabled: true
+    exclude:
+    - initialize
+    max_statements: 10
+
+exclude_paths:
+  - '**/zzz/**/*'

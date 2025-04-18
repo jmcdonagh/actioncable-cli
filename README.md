@@ -3,11 +3,8 @@
 This is a tiny PoC that shows a Rails API-Only app, communicated with via
 CLI -> ActionCable (WebSockets). It also has RedLock for distributed locking.
 This was based on [https://www.hansschnedlitz.com/2021/04/04/build-real-time-clis-with-actioncable.html]
-with some minor changes.
-
-This is for demonstration purposes only!! If you want to actually extend this
-thing and put it to use, fork it and start a real project! Keep this repo as
-bare-bones as possible.
+with some changes like adding linters, rake tasks, and a few other boilerplate
+things.
 
 ## Options used to generate the initial Rails app
 
@@ -149,14 +146,4 @@ that really doesn't do much but sleep and broadcast messages to the client.
 The Thor task will receive various messages that the worker started, updated,
 etc which you can see in the Worker class (app/workers/worker.rb). Note the
 callbacks on the Thor task to see what draws the progress bar on the screen.
-
-## Can I see the difference between a newborn Rails app and this?
-
-This is very close to a default Rails app with a small amount of code added
-to show you how easy it is to get going with such advanced architecture. To
-see these changes run:
-
-```shell
-  git diff 93556557bcee94711920d3692c5abe0ad57a897b..9be03fb7d0fe4c9a4a9c75750fb92fc2b7c830aa
-```
 
